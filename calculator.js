@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let option = -1;
+    let selectedOptions = [];
     let area = 0;
 
     // Selectăm butoanele și caseta de input
@@ -17,25 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adăugăm event listener pentru butoanele de metal
     feButton.addEventListener('click', () => {
-        option = 0;
-        clearButtons();
-        feButton.classList.add('selected');
-        metalSelection.textContent = 'Ați selectat: Fier';
-    });
+    toggleSelection(0, feButton);
+	});
 
-    cuButton.addEventListener('click', () => {
-        option = 1;
-        clearButtons();
-        cuButton.classList.add('selected');
-        metalSelection.textContent = 'Ați selectat: Cupru';
-    });
+	cuButton.addEventListener('click', () => {
+    toggleSelection(1, cuButton);
+	});
 
-    alButton.addEventListener('click', () => {
-        option = 2;
-        clearButtons();
-        alButton.classList.add('selected');
-        metalSelection.textContent = 'Ați selectat: Nichel';
-    });
+	alButton.addEventListener('click', () => {
+    toggleSelection(2, alButton);
+	});
+
 	// Adăugăm event listener pentru butonul home
     homeButton.addEventListener('click', () => {
         window.location.href = 'interfata.html';
@@ -43,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adăugăm event listener pentru butonul de calculare
     calculateButton.addEventListener('click', () => {
         // Verificăm dacă s-a selectat un metal și s-a introdus o valoare pentru aria
-        if (option === -1) {
+        if (selectedOptions.length === 0) {
             alert('Vă rugăm să selectați un metal.');
             return;
         }
@@ -59,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         area = parseFloat(areaInput.value);
 
         // Calculăm Ip
+		const option = selectedOptions[0];
         const Ip = calculateIp(option, area);
         const stabilityMessage = getStabilityMessage(Ip, metalNames[option]);
         resultDiv.innerHTML = `Indicele de penetrație (Ip) este: ${Ip.toFixed(6)} mm/an.<br>${stabilityMessage}`;
@@ -66,13 +59,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adăugăm event listener pentru butonul de reset
     resetButton.addEventListener('click', () => {
-        option = -1;
+        selectedOptions = [];
         areaInput.value = '';
         resultDiv.textContent = '';
         clearButtons();
-        metalSelection.textContent = 'Selectați metalul:';
+        updateSelectionText();
     });
-
+	
+	function toggleSelection(option, button){
+		if (selectedOptions.includes(option)) {
+            selectedOptions = selectedOptions.filter(opt => opt !== option);
+            button.classList.remove('selected');
+        } else if (selectedOptions.length < 2) {
+            selectedOptions.push(option);
+            button.classList.add('selected');
+        } else {
+            alert('Puteți selecta doar două metale.');
+        }
+		updateSelectionText();
+    }
+	
+	// Funcție pentru actualizarea textului de selecție
+    function updateSelectionText() {
+        const metalNames = ['Fier', 'Cupru', 'Nichel'];
+        if (selectedOptions.length === 0) {
+            metalSelection.textContent = 'Selectați metalul:';
+        } else {
+            metalSelection.textContent = 'Ați selectat: ' + selectedOptions.map(opt => metalNames[opt]).join(' și ');
+        }
+    }
     // Funcție pentru ștergerea selecției butoanelor
     function clearButtons() {
         feButton.classList.remove('selected');
@@ -98,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return Ip;
     }
 
+	
     // Funcție pentru determinarea mesajului de stabilitate
     function getStabilityMessage(Ip, metalName) {
         if (Ip < 0.001) {
