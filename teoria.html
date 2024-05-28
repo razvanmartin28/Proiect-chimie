@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoria Lucrării</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1dff5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #7917ad;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .top-left {
+            position: absolute;
+            top: 80px; /* Ajustează valoarea după cum este necesar */
+            left: 20px;
+        }
+        .top-left button {
+            background-color: #9370DB; /* Aceeași culoare ca celelalte butoane */
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #f1dff5;
+            text-align: center;
+        }
+        p {
+            text-align: justify;
+        }
+        .fraction {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0.2em;
+            text-align: center;
+        }
+        .fraction > span {
+            display: block;
+        }
+        .fraction .top {
+            border-bottom: 1px solid #000;
+            padding: 0 0.1em;
+        }
+        .fraction .bottom {
+            padding: 0 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Teorie</h1>
+    </header>
+    
+    <div class="top-left">
+        <button id="homeButton">Înapoi</button>
+    </div>
+
+    <div class="container">
+        <h2>Definiția Coroziunii Galvanice</h2>
+        <p>Notiunea de coroziune include toate procesele chimice si electrochimice care au 
+drept rezultat degradarea spontana si continua a suprafetelor metalelor si aliajelor. 
+Majoritatea metalolor se gasesc în natura sub forma de combinatii dintre care de cele 
+mai multe ori sub forma de oxizi. Acest fapt dovedeste ca pentru aceste metale, starea 
+metalica este instabila din punct de vedere termodinamic, în prezenta agentilor chimici 
+si electrochimici, ele având tendinta de a se coroda, refacând conditiile din care au 
+provenit.</p>
+        <p>Coroziunea galvanică este cea cauzată sau accelerată de trecerea 
+curentului electric prin două sau mai multe metale diferite aflate in contact in prezenta 
+unui electrolit. Cuplajul galvanic poate exista şi între diverse faze ale aceluiaşi aliaj: 
+faze metalice, compuşi intermetalici, carburi, sulfuri, cordoane de sudură, etc. 
+Coroziunea galvanică este cauzată de activitatea electrochimică intre metalul 
+mai activ care are rol de anod si metalul mai puţin activ care are rol de catod.</p>
+        <p>
+		Indicele de penetratie (Ip) este o măsură folosită pentru a evalua viteza
+		de coroziune a unui metal în timp. Acesta este exprimat în milimetri pe an
+		(mm/an) și reprezintă adâncimea medie a materialului corodat într-un an de
+		expunere într-un anumit mediu coroziv.</p>
+		
+		
+        <h2>Despre Calculator</h2>
+        <p>Calculatorul determina indicele de penetratie al sistemului metalic format din Zn (anod) si Fe/Cu/Ni (catod) in apa sarata
+		(NaCl-3%) si apreciaza gradul de stabilitate al acestuia la coroziune. Formulele pe care acesta le foloseste sunt:</p>
+        <p>
+            v<sub>cor</sub> = k<sub>g</sub> = 3600
+            <span class="fraction">
+                <span class="top">A</span>
+                <span class="bottom">zF</span>
+            </span>*
+            <span class="fraction">
+                <span class="top">I</span>
+                <span class="bottom">S</span>
+            </span> [g/m<sup>2</sup>*h]
+        </p>
+        <p>
+            I<sub>p</sub> = 
+            <span class="fraction">
+                <span class="top">k<sub>g</sub> * 24 * 365</span>
+                <span class="bottom">1000d</span>
+            </span> [mm/an]
+        </p>
+        <p>Unde:</p>
+        <ul>
+            <li>k<sub>g</sub> - indicele gravimetric de coroziune</li>
+            <li>A - masa atomică a metalului supus coroziunii</li>
+            <li>z - numărul de electroni ce se eliberează în procesul anodic</li>
+            <li>F - constanta lui Faraday (F = 96485 [A*s])</li>
+            <li>I - intensitatea curentului de dizolvare anodică (Zn) exprimată în amperi</li>
+            <li>S - suprafața metalului supus coroziunii</li>
+            <li>I<sub>p</sub> - indicele de penetrație</li>
+            <li>d - densitatea materialului metalic</li>
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('homeButton').addEventListener('click', function() {
+            window.location.href = 'interfata.html';
+        });
+    </script>
+</body>
+</html>

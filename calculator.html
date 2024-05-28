@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coroziunea Galvanică</title>
+    <link rel="stylesheet" href="styles_calc.css">
+</head>
+<body>
+	<div class="top-left">
+		<button id="homeButton">Înapoi</button>
+	</div>
+    <div class="container">
+        <h2>Coroziunea Galvanică</h2>
+        <div id="metalSelection">
+            <p>Selectați metalul:</p>
+            <button id="feButton">Fier</button>
+            <button id="cuButton">Cupru</button>
+            <button id="alButton">Nichel</button>
+        </div>
+        <div>
+            <label for="areaInput"><br>Introduceți suprafața metalică expusă mediului coroziv (cm²): </label> <br><br>
+            <input type="text" id="areaInput"><br><br>
+        </div>
+        <div>
+            <button id="calculateButton">Calculează</button>
+            <button id="resetButton">Resetează</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script src="calculator.js"></script>
+</body>
+</html>

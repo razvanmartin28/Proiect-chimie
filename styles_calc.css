@@ -1,0 +1,41 @@
+body {
+    background-color: #E6E6FA; /* Lila */
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding-top: 50px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #9370DB; /* Mov */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button.selected {
+    background-color: #6A5ACD; /* Mov mai închis pentru butonul selectat */
+}
+
+input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#metalSelection p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4B0082; /* Indigou pentru textul de selecție */
+}
