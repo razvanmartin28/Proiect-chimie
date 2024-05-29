@@ -5,7 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Selectăm butoanele și caseta de input
     const feButton = document.getElementById('feButton');
     const cuButton = document.getElementById('cuButton');
-    const alButton = document.getElementById('alButton');
+    const niButton = document.getElementById('niButton');
+	const znButton = document.getElementById('znButton');
+	const alButton = document.getElementById('alButton');
+	const naButton = document.getElementById('naButton');
+	const auButton = document.getElementById('auButton');
     const areaInput = document.getElementById('areaInput');
     const calculateButton = document.getElementById('calculateButton');
     const resetButton = document.getElementById('resetButton');
@@ -13,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const metalSelection = document.getElementById('metalSelection').querySelector('p');
 	const homeButton = document.getElementById('homeButton');
 
-    const metalNames = ['Fier', 'Cupru', 'Nichel'];
+    const metalNames = ['Fier', 'Cupru', 'Nichel', 'Zinc', 'Aluminiu', 'Sodiu', 'Aur'];
 
     // Adăugăm event listener pentru butoanele de metal
     feButton.addEventListener('click', () => {
@@ -24,10 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleSelection(1, cuButton);
 	});
 
-	alButton.addEventListener('click', () => {
-    toggleSelection(2, alButton);
+	niButton.addEventListener('click', () => {
+    toggleSelection(2, niButton);
 	});
-
+	
+	znButton.addEventListener('click', () => {
+    toggleSelection(3, znButton);
+	});
+	
+	alButton.addEventListener('click', () => {
+    toggleSelection(4, alButton);
+	});
+	
+	naButton.addEventListener('click', () => {
+    toggleSelection(5, naButton);
+	});
+	
+	auButton.addEventListener('click', () => {
+    toggleSelection(6, auButton);
+	});
+	
 	// Adăugăm event listener pentru butonul home
     homeButton.addEventListener('click', () => {
         window.location.href = 'interfata.html';
@@ -81,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	// Funcție pentru actualizarea textului de selecție
     function updateSelectionText() {
-        const metalNames = ['Fier', 'Cupru', 'Nichel'];
+        const metalNames = ['Fier', 'Cupru', 'Nichel', 'Zinc', 'Aluminiu', 'Sodiu', 'Aur'];
         if (selectedOptions.length === 0) {
             metalSelection.textContent = 'Selectați metalul:';
         } else {
@@ -92,15 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearButtons() {
         feButton.classList.remove('selected');
         cuButton.classList.remove('selected');
-        alButton.classList.remove('selected');
+        niButton.classList.remove('selected');
+		znButton.classList.remove('selected');
+		alButton.classList.remove('selected');
+		naButton.classList.remove('selected');
+		auButton.classList.remove('selected');
     }
 
     // Funcție pentru calcularea Ip
     function calculateIp(option, area) {
         const metals = [
-            { z: 2, A: 56, dens: 7.874 }, // Fier
-            { z: 2, A: 64, dens: 8.96 },  // Cupru
-            { z: 2, A: 59, dens: 8.9 }     // Nichel
+            { z: 2, A: 56, dens: 7.874, pot: -0.44}, // Fier
+            { z: 2, A: 64, dens: 8.96,  pot: 0.34},  // Cupru
+            { z: 2, A: 59, dens: 8.908, pot: -0.25}, // Nichel
+			{ z: 2, A: 65, dens: 7.14, pot: -0.76}, //Zinc	 
+			{ z: 3, A: 27, dens: 2.70, pot: -1.66}, //Aluminiu
+			{ z: 1, A: 23, dens: 0.97, pot: -2.7 }, //Sodiu
+			{ z: 3, A: 197, dens: 19.32, pot: 1.5}  //Aur
         ];
 
         const INTENSITATE = 1.5873;
