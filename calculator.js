@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let selectedOptions = [];
     let area = 0;
+	let intensity = 0;
 
     // Selectăm butoanele și caseta de input
     const feButton = document.getElementById('feButton');
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const naButton = document.getElementById('naButton');
 	const auButton = document.getElementById('auButton');
     const areaInput = document.getElementById('areaInput');
+	const intensityInput = document.getElementById('intensityInput');
     const calculateButton = document.getElementById('calculateButton');
     const resetButton = document.getElementById('resetButton');
     const resultDiv = document.getElementById('result');
@@ -69,10 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         area = parseFloat(areaInput.value);
+		intensity = parseFloat(intensityInput.value)
 		
         // Calculăm Ip + care din metale e catod si care e anod
-        const result = calculateIp(selectedOptions, area);
-		const mesaj = getStabilityMessage(result.Ip, result.catod);
+        const result = calculateIp(selectedOptions, area, intensity);
+		const mesaj = getStabilityMessage(result.Ip, result.anod);
 		
 		// Afisăm rezultatele
 		resultDiv.innerHTML = `
@@ -126,19 +129,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	
     // Funcție pentru calcularea Ip
-    function calculateIp(option, area) {
+    function calculateIp(option, area, intensity) {
         const metals = [
             { name: 'Fierul',     z: 2, A: 56,  dens: 7.874, pot: -0.44 }, // Fier
 			{ name: 'Cuprul',    z: 2, A: 64,  dens: 8.96,  pot: 0.34 },  // Cupru
 			{ name: 'Nichelul',   z: 2, A: 59,  dens: 8.908, pot: -0.25 }, // Nichel
-			{ name: 'Zincul',     z: 2, A: 65,  dens: 7.14,  pot: -0.76 }, // Zinc	 
+			{ name: 'Zincul',     z: 2, A: 65,  dens: 7.134,  pot: -0.76 }, // Zinc	 
 			{ name: 'Aluminiul', z: 3, A: 27,  dens: 2.70,  pot: -1.66 }, // Aluminiu
-			{ name: 'Sodiul',    z: 1, A: 23,  dens: 0.97,  pot: -2.7 }, // Sodiu
+			{ name: 'Sodiul',    z: 1, A: 23,  dens: 0.971,  pot: -2.7 }, // Sodiu
 			{ name: 'Aurul',      z: 3, A: 197, dens: 19.32, pot: 1.5 }  // Aur
         ];
 		
-		const INTENSITATE = 1.5873;
-        const FARADAY = 96500;
+        const FARADAY = 96485.3321;
 		
 		const m1 = metals[option[0]];
 		const m2 = metals[option[1]];
@@ -148,13 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (m1.pot < m2.pot) {
 			anod = m1.name;
 			catod = m2.name;
-			Kg = (3600 * m2.A * INTENSITATE) / (m2.z * FARADAY * area) * 10;
-			Ip = (Kg * 24 * 365) / (1000 * m2.dens);
+			Kg = (3600 * m1.A * intensity) / (m1.z * FARADAY * area) * 10;
+			Ip = (Kg * 24 * 365) / (1000 * m1.dens);
 		} else {
 			anod = m2.name;
 			catod = m1.name;
-			Kg = (3600 * m1.A * INTENSITATE) / (m1.z * FARADAY * area) * 10;
-			Ip = (Kg * 24 * 365) / (1000 * m1.dens);
+			Kg = (3600 * m2.A * intensity) / (m2.z * FARADAY * area) * 10;
+			Ip = (Kg * 24 * 365) / (1000 * m2.dens);
 		}
 		
 		return { Ip, anod, catod};
