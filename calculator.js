@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adăugăm event listener pentru butonul de calculare
     calculateButton.addEventListener('click', () => {
         // Verificăm dacă s-a selectat un metal și s-a introdus o valoare pentru aria
-        if (selectedOptions.length === 0) {
-            alert('Vă rugăm să selectați un metal.');
+        if (selectedOptions.length !== 2) {
+            alert('Vă rugăm să selectați două metal.');
             return;
         }
 		if (!areaInput.value.trim()) {
@@ -69,13 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         area = parseFloat(areaInput.value);
-
-        // Calculăm Ip
-		const option = selectedOptions[0];
-        const Ip = calculateIp(option, area);
-        const stabilityMessage = getStabilityMessage(Ip, metalNames[option]);
-        resultDiv.innerHTML = `Indicele de penetrație (Ip) este: ${Ip.toFixed(6)} mm/an.<br>${stabilityMessage}`;
-    });
+		
+        // Calculăm Ip + care din metale e catod si care e anod
+        const result = calculateIp(selectedOptions, area);
+		const mesaj = getStabilityMessage(result.Ip, result.catod);
+		
+		// Afisăm rezultatele
+		resultDiv.innerHTML = `
+			<p>În pila galvanică formată din ${metalNames[selectedOptions[0]]} si ${metalNames[selectedOptions[1]]}, în mediul neutru de apă de mare,  ${result.anod} este anod și  ${result.catod} este catod.</p>
+			<p>Indicele de penetrație (Ip) este: ${result.Ip.toFixed(6)} mm/an. </p>
+			<p>${mesaj}</p>
+		`;
+	});
 
     // Adăugăm event listener pentru butonul de reset
     resetButton.addEventListener('click', () => {
@@ -118,27 +123,41 @@ document.addEventListener('DOMContentLoaded', () => {
 		naButton.classList.remove('selected');
 		auButton.classList.remove('selected');
     }
-
+	
+	
     // Funcție pentru calcularea Ip
     function calculateIp(option, area) {
         const metals = [
-            { z: 2, A: 56, dens: 7.874, pot: -0.44}, // Fier
-            { z: 2, A: 64, dens: 8.96,  pot: 0.34},  // Cupru
-            { z: 2, A: 59, dens: 8.908, pot: -0.25}, // Nichel
-			{ z: 2, A: 65, dens: 7.14, pot: -0.76}, //Zinc	 
-			{ z: 3, A: 27, dens: 2.70, pot: -1.66}, //Aluminiu
-			{ z: 1, A: 23, dens: 0.97, pot: -2.7 }, //Sodiu
-			{ z: 3, A: 197, dens: 19.32, pot: 1.5}  //Aur
+            { name: 'Fierul',     z: 2, A: 56,  dens: 7.874, pot: -0.44 }, // Fier
+			{ name: 'Cuprul',    z: 2, A: 64,  dens: 8.96,  pot: 0.34 },  // Cupru
+			{ name: 'Nichelul',   z: 2, A: 59,  dens: 8.908, pot: -0.25 }, // Nichel
+			{ name: 'Zincul',     z: 2, A: 65,  dens: 7.14,  pot: -0.76 }, // Zinc	 
+			{ name: 'Aluminiul', z: 3, A: 27,  dens: 2.70,  pot: -1.66 }, // Aluminiu
+			{ name: 'Sodiul',    z: 1, A: 23,  dens: 0.97,  pot: -2.7 }, // Sodiu
+			{ name: 'Aurul',      z: 3, A: 197, dens: 19.32, pot: 1.5 }  // Aur
         ];
-
-        const INTENSITATE = 1.5873;
+		
+		const INTENSITATE = 1.5873;
         const FARADAY = 96500;
-
-        const m = metals[option];
-        const Kg = (3600 * m.A * INTENSITATE) / (m.z * FARADAY * area) * 10;
-        const Ip = (Kg * 24 * 365) / (1000 * m.dens);
-
-        return Ip;
+		
+		const m1 = metals[option[0]];
+		const m2 = metals[option[1]];
+		
+		let anod, catod, Kg, Ip;
+		//ala cu pot de coroziune mai mic e anod
+		if (m1.pot < m2.pot) {
+			anod = m1.name;
+			catod = m2.name;
+			Kg = (3600 * m2.A * INTENSITATE) / (m2.z * FARADAY * area) * 10;
+			Ip = (Kg * 24 * 365) / (1000 * m2.dens);
+		} else {
+			anod = m2.name;
+			catod = m1.name;
+			Kg = (3600 * m1.A * INTENSITATE) / (m1.z * FARADAY * area) * 10;
+			Ip = (Kg * 24 * 365) / (1000 * m1.dens);
+		}
+		
+		return { Ip, anod, catod};
     }
 
 	
