@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let selectedOptions = [];
     let area = 0;
-	let intensity = 0;
+    let intensity = 0;
 
     // Selectăm butoanele și caseta de input
     const feButton = document.getElementById('feButton');
@@ -69,6 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Vă rugăm să introduceți o valoare numerică pentru arie (cm²).');
             return;
         }
+	
+	    if (!intensityInput.value.trim()) {
+            alert('Vă rugăm să introduceți o valoare pentru intensitate curentului de dizolvare anodica (A).');
+            return;
+		}
+        if (!/^\d+(\.\d+)?$/.test(intensityInput.value.trim())) {
+            alert('Vă rugăm să introduceți o valoare numerică pentru intensitatea curentului de dizolvare anodica (A).');
+            return;
+        }
 
         area = parseFloat(areaInput.value);
 		intensity = parseFloat(intensityInput.value)
@@ -89,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetButton.addEventListener('click', () => {
         selectedOptions = [];
         areaInput.value = '';
+	intensityInput.value = '';
         resultDiv.textContent = '';
         clearButtons();
         updateSelectionText();
